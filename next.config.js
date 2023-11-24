@@ -3,8 +3,8 @@ const nextConfig = {
   env: {
     accessKeyId: process.env.accessKeyId,
     secretAccessKey: process.env.secretAccessKey,
-    region: process.env.region, 
-  }
-}
+    region: process.env.region,
+  },
+};
 
-module.exports = nextConfig
+module.exports = nextConfig;
