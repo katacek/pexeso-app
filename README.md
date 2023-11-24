@@ -1,9 +1,11 @@
-Pexeso app in Next.js, using AWS S3 and MongoDB along the way
+Pexeso app in Next.js (with App Router + Tailwind to try it), using AWS S3 and MongoDB along the way
 
 ### Admin page
 
 - [x] upload images to s3 + access images from s3
-- [ ] upload images to MongoDB under named collection for various game + crop them to be squared
+- [ ] crop images during uplaod
+- [x] upload images to MongoDB
+- [ ] uplaod images under defined collection for various game
 - [ ] retrieve game images from MongoDb
 - [ ] delete game images in MongoDB
 - [ ] change game images name
