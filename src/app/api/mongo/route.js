@@ -1,5 +1,5 @@
 import { MongoClient } from "mongodb";
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 
 // export async function GET (request){
 //     const greeting = "Hello World!!"
@@ -13,8 +13,6 @@ import { NextRequest, NextResponse } from "next/server";
 export async function POST(req) {
   const res = await req.json();
   const { data } = res;
-  console.log({ res });
-  console.log({ data });
 
   const client = new MongoClient(process.env.MONGODB_URI, {
     useNewUrlParser: true,

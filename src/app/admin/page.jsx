@@ -18,6 +18,15 @@ const Admin = () => {
     signatureVersion: "v4",
   });
 
+  const client = new S3Client({
+    region: process.env.region,
+    credentials: {
+      accessKeyId: process.env.accessKeyId,
+      secretAccessKey: process.env.secretAccessKey,
+    },
+    signatureVersion: "v4",
+  });
+
   useEffect(() => {
     return upload?.abort();
   }, []);
@@ -29,49 +38,65 @@ const Admin = () => {
 
   const handleUpload = async (e) => {
     e.preventDefault();
-    if (!file) return;
-    const s3Params = {
-      Bucket: "pexeso-bucket",
-      Key: file.name,
-      Body: file,
-      ACL: "public-read",
-    };
+    if (!file) {
+        alert("Error while saving data AWS S3 bucket!");
+        return;
+    }
 
     try {
-      const upload = s3.upload(s3Params).promise();
+      let formData = new FormData();
+      formData.append("Key", file.name);
+      formData.append("Body", file);
 
-      /**
-       * uploadImgToS3Response returns object
-       * Bucket: string
-       * ETag:string
-       * Key: string
-       * Location:url string
-       */
-      const uploadImgToS3Response = await upload;
-      setUpload(uploadImgToS3Response);
-      console.log(`File uploaded successfully: ${file.name}`);
+      console.log({ file });
+      const uploadToS3 = await fetch("/api/awsPost", {
+        method: "POST",
+        body: formData,
+      });
 
-      // keep the same structure as later needed for url retrieval from s3
-      // Q: Do I need file itself? than, it would not make sense to store it in S3
+      if (uploadToS3.ok) {
+        setUpload(true);
+        alert("Data saved to AWS S3 bucket successfully!");
+        console.log(`File uploaded successfully: ${file.name}`);
+      } else {
+        alert("Error while saving data AWS S3 bucket!");
+        return;
+      }
+
       const mongoDbData = {
         Key: file.name,
-        CodedUrl: uploadImgToS3Response.Location,
+        CodedUrl: uploadToS3.Location,
       };
-      const response = await fetch("/api/savetomongo", {
+      const uploadToMongo = await fetch("/api/mongo", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({ data: mongoDbData }),
       });
-      console.log({ response });
-      if (response.ok) {
-        alert("Data saved successfully!");
-        setInputData("");
+      if (uploadToMongo.ok) {
+        alert("Data saved to Mongo successfully!");
+      } else {
+        alert("Error while saving data Mongo");
+        return;
       }
+
+      const getSignedUrl = await fetch(`/api/awsGet?key=${file.name}`);
+      const signedUrl = getSignedUrl.body
+
+      if (getSignedUrl.ok) {
+        // todo: this is readable stream, not url string
+        console.log({signedUrl});
+        alert("Signed url obtained");
+      } else {
+        alert("Error while getting signed url");
+        return;
+      }
+
     } catch (err) {
-      alert(JSON.stringify(err));
-    }
+        console.log({err});
+        alert("Smt went wrong");
+      }
   };
 
   const handleCancel = (e) => {
@@ -84,22 +109,6 @@ const Admin = () => {
 
   // read file from mongo and creating url path
   // I need the s3params again
-  //  const s3Params = {
-  //     Bucket: "pexeso-bucket",
-  //     Key: file.name,  // from mongo
-  //     Body: file,
-  //     ACL: "public-read",
-  //   };
-  //   const client = new S3Client({
-  //     region: process.env.region,
-  //     credentials: {
-  //       accessKeyId: process.env.accessKeyId,
-  //       secretAccessKey: process.env.secretAccessKey,
-  //     },
-  //     signatureVersion: "v4",
-  //   });
-  //   const command = new GetObjectCommand(s3Params);
-  //   const url = await getSignedUrl(client, command, { expiresIn: 3600 });
 
   return (
     <div className="dark flex min-h-screen w-full items-center justify-center">
