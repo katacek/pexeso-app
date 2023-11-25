@@ -81,6 +81,7 @@ const Admin = () => {
         return;
       }
 
+      // TODO: get from mongo
       const getSignedUrl = await fetch(`/api/awsGet?key=${file.name}`);
       const signedUrl = getSignedUrl.body
 
