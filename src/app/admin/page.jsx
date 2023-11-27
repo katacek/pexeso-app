@@ -1,31 +1,11 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { S3 } from "aws-sdk";
-import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
-import { S3Client, GetObjectCommand } from "@aws-sdk/client-s3";
 
 const Admin = () => {
   const [file, setFile] = useState(null);
   const [upload, setUpload] = useState(null);
 
-  const s3 = new S3({
-    region: process.env.region,
-    credentials: {
-      accessKeyId: process.env.accessKeyId,
-      secretAccessKey: process.env.secretAccessKey,
-    },
-    signatureVersion: "v4",
-  });
-
-  const client = new S3Client({
-    region: process.env.region,
-    credentials: {
-      accessKeyId: process.env.accessKeyId,
-      secretAccessKey: process.env.secretAccessKey,
-    },
-    signatureVersion: "v4",
-  });
 
   useEffect(() => {
     return upload?.abort();
@@ -49,7 +29,7 @@ const Admin = () => {
       formData.append("Body", file);
 
       console.log({ file });
-      const uploadToS3 = await fetch("/api/awsPost", {
+      const uploadToS3 = await fetch("/api/aws", {
         method: "POST",
         body: formData,
       });
@@ -81,12 +61,20 @@ const Admin = () => {
         return;
       }
 
-      // TODO: get from mongo
-      const getSignedUrl = await fetch(`/api/awsGet?key=${file.name}`);
+      // get from mongo
+      const getDataFromMongo = await fetch("/api/mongo");
+      console.log({getDataFromMongo});
+      if (getDataFromMongo.ok) {
+        alert("Data retrieved Mongo successfully!");
+      } else {
+        alert("Error while retrieving data Mongo");
+        return;
+      }
+      const getSignedUrl = await fetch(`/api/aws?key=${file.name}`);
       const signedUrl = getSignedUrl.body
 
       if (getSignedUrl.ok) {
-        // todo: this is readable stream, not url string
+        // this is readable stream, not url string
         console.log({signedUrl});
         alert("Signed url obtained");
       } else {

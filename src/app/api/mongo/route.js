@@ -1,27 +1,31 @@
 import { MongoClient } from "mongodb";
 import { NextResponse } from "next/server";
 
-// export async function GET (request){
-//     const greeting = "Hello World!!"
-//     const json = {
-//         greeting
-//     };
+const client = new MongoClient(process.env.MONGODB_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
 
-//     return NextResponse.json(json);
-// }
+const database = client.db("pexeso-app");
+const collection = database.collection("test-game");
+
+export async function GET (req, response){
+  try {
+    const testGameDataCollection = await collection.find({}).toArray();
+    console.log({testGameDataCollection})
+    Response.json(testGameDataCollection);
+
+  } catch(err) {
+    Response.json(err);
+    console.error(err);
+  }
+}
 
 export async function POST(req) {
   const res = await req.json();
   const { data } = res;
 
-  const client = new MongoClient(process.env.MONGODB_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  });
-
   await client.connect();
-  const database = client.db("pexeso-app");
-  const collection = database.collection("test-game");
   const response = await collection.insertOne({ data });
   return NextResponse.json(response);
 }
