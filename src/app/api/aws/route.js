@@ -24,8 +24,8 @@ const client = new S3Client({
 export async function POST(req) {
   const res = await req.formData();
 
-  const key = res.get('Key');
-  const file = res.get('Body');
+  const key = res.get("Key");
+  const file = res.get("Body");
 
   const buffer = Buffer.from(await file.arrayBuffer());
 
@@ -48,16 +48,16 @@ export async function POST(req) {
 }
 
 export async function GET(req) {
-  const {searchParams} = new URL(req.url);
-  const key = searchParams.get('key');
+  const { searchParams } = new URL(req.url);
+  const key = searchParams.get("key");
 
   const s3ParamsGetUrl = {
-      Bucket: "pexeso-bucket",
-      Key: key, // from mongo
-    };
+    Bucket: "pexeso-bucket",
+    Key: key, // from mongo
+  };
 
   const command = new GetObjectCommand(s3ParamsGetUrl);
   const signedUrl = await getSignedUrl(client, command, { expiresIn: 60000 });
-  console.log({signedUrl})
-  return NextResponse.json({data: signedUrl});
+  console.log({ signedUrl });
+  return NextResponse.json({ data: signedUrl });
 }

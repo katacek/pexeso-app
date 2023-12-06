@@ -9,13 +9,12 @@ const client = new MongoClient(process.env.MONGODB_URI, {
 const database = client.db("pexeso-app");
 const collection = database.collection("test-game");
 
-export async function GET (){
+export async function GET() {
   try {
     const testGameDataCollection = await collection.find({}).toArray();
-    console.log({testGameDataCollection})
-    return NextResponse.json({data: testGameDataCollection});
-
-  } catch(err) {
+    console.log({ testGameDataCollection });
+    return NextResponse.json({ data: testGameDataCollection });
+  } catch (err) {
     console.error(err);
     return NextResponse.json(err);
   }
