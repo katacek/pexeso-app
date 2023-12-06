@@ -19,9 +19,10 @@ const Admin = () => {
   const handleUpload = async (e) => {
     e.preventDefault();
     if (!file) {
-        alert("Error while saving data AWS S3 bucket!");
+        alert("No file provided!");
         return;
     }
+    setUpload(true);
 
     try {
       let formData = new FormData();
@@ -35,13 +36,9 @@ const Admin = () => {
       });
 
       if (uploadToS3.ok) {
-        setUpload(true);
         alert("Data saved to AWS S3 bucket successfully!");
         console.log(`File uploaded successfully: ${file.name}`);
-      } else {
-        alert("Error while saving data AWS S3 bucket!");
-        return;
-      }
+      } 
 
       const mongoDbData = {
         Key: file.name,
@@ -56,31 +53,24 @@ const Admin = () => {
       });
       if (uploadToMongo.ok) {
         alert("Data saved to Mongo successfully!");
-      } else {
-        alert("Error while saving data Mongo");
-        return;
-      }
+      } 
 
       // get from mongo
-      const getDataFromMongo = await fetch("/api/mongo");
-      console.log({getDataFromMongo});
-      if (getDataFromMongo.ok) {
+      const fetchDataFromMongo = await fetch("/api/mongo");
+      const { data: dataFromMongo } = await fetchDataFromMongo.json();
+      console.log({dataFromMongo});
+      if (dataFromMongo) {
         alert("Data retrieved Mongo successfully!");
-      } else {
-        alert("Error while retrieving data Mongo");
-        return;
-      }
-      const getSignedUrl = await fetch(`/api/aws?key=${file.name}`);
-      const signedUrl = getSignedUrl.body
+      } 
+      const fetchSignedUrl = await fetch(`/api/aws?key=${file.name}`);
+      const { data: signedUrl} = await fetchSignedUrl.json();
 
-      if (getSignedUrl.ok) {
-        // this is readable stream, not url string
+      if (signedUrl) {
         console.log({signedUrl});
         alert("Signed url obtained");
-      } else {
-        alert("Error while getting signed url");
-        return;
-      }
+      } 
+
+      setUpload(null);
 
     } catch (err) {
         console.log({err});
@@ -96,8 +86,6 @@ const Admin = () => {
     setUpload(null);
   };
 
-  // read file from mongo and creating url path
-  // I need the s3params again
 
   return (
     <div className="dark flex min-h-screen w-full items-center justify-center">

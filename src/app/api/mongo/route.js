@@ -9,15 +9,15 @@ const client = new MongoClient(process.env.MONGODB_URI, {
 const database = client.db("pexeso-app");
 const collection = database.collection("test-game");
 
-export async function GET (req, response){
+export async function GET (){
   try {
     const testGameDataCollection = await collection.find({}).toArray();
     console.log({testGameDataCollection})
-    Response.json(testGameDataCollection);
+    return NextResponse.json({data: testGameDataCollection});
 
   } catch(err) {
-    Response.json(err);
     console.error(err);
+    return NextResponse.json(err);
   }
 }
 
