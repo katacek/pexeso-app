@@ -12,7 +12,6 @@ const collection = database.collection("test-game");
 export async function GET() {
   try {
     const testGameDataCollection = await collection.find({}).toArray();
-    console.log({ testGameDataCollection });
     return NextResponse.json({ data: testGameDataCollection });
   } catch (err) {
     console.error(err);

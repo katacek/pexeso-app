@@ -7,7 +7,6 @@ export async function GET(req) {
   //get keys from collection from mongodb
   const { searchParams } = new URL(req.url);
   const collectionName = searchParams.get("collectionName");
-  console.log({ collectionName });
   const client = new MongoClient(process.env.MONGODB_URI);
   await client.connect();
   // TODO env

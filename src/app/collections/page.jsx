@@ -2,12 +2,15 @@
 
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
+import { handleLoadItems } from "../helpers";
 
 const Collections = () => {
   const router = useRouter();
   const [collections, setCollections] = useState([]);
   const [items, setItems] = useState([]);
 
+  // TODO: use react query for the loading state
   useEffect(() => {
     const fetchCollections = async () => {
       try {
@@ -19,25 +22,8 @@ const Collections = () => {
         alert("Smt went wrong in fetching collections");
       }
     };
-    // TODO: check notes how to do it other way
     fetchCollections().catch(console.error);
   }, []);
-
-  const handleSeeItems = async (collection) => {
-    try {
-      const fetchCollectionItems = await fetch(
-        `/api/getPicturesUrls?collectionName=${collection}`
-      );
-      const { data } = await fetchCollectionItems.json();
-      setItems(data);
-    } catch (err) {
-      console.log({ err });
-      alert("Smt went wrong in getting pexeso pictures");
-      return;
-    }
-  };
-
-  console.log({ items });
 
   return (
     <>
@@ -47,31 +33,34 @@ const Collections = () => {
       >
         Go back
       </button>
-      <ul className="list-disc m-2">
+      <p className="m-2">Click on the collections below to see the items</p>
+      <div>
         {collections ? (
           [...collections].map((collection, index) => (
-            <li key={index}>
-              <p>Name: {collection}</p>
-              <button
-                onClick={() => {
-                  handleSeeItems(collection);
-                }}
-              >
-                See items
-              </button>
-            </li>
+            <button
+              key={index}
+              className="inline-block rounded border-2 border-info px-6 pb-[6px] pt-2 text-xs font-medium uppercase leading-normal text-info transition duration-150 ease-in-out hover:border-info-600 hover:bg-neutral-500 hover:bg-opacity-10 hover:text-info-600 focus:border-info-600 focus:text-info-600 focus:outline-none focus:ring-0 active:border-info-700 active:text-info-700 dark:hover:bg-neutral-100 dark:hover:bg-opacity-10 m-2"
+              onClick={async () => {
+                const data = await handleLoadItems(collection);
+                setItems(data);
+              }}
+            >
+              {collection}
+            </button>
           ))
         ) : (
           <p> No collections exist, try to create one first</p>
         )}
-      </ul>
-        <div className="grid grid-cols-3 gap-1">
-          {items.map((item, index) => {
-              return (<div key={index}>
-                <img alt="" src={item} />
-              </div>);
-            })}
-        </div>
+      </div>
+      <div className="grid grid-cols-3 gap-1 m-2">
+        {items.map((item, index) => {
+          return (
+            <div key={index}>
+              <Image alt="" src={item} width={500} height={500} />
+            </div>
+          );
+        })}
+      </div>
     </>
   );
 };

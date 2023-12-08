@@ -1,9 +1,11 @@
 import React, { useState } from "react";
+import { useRouter } from "next/navigation";
 
 const MultipleFileUploader = () => {
   const [files, setFiles] = useState(null);
   const [collectionName, setCollectionName] = useState("");
   const [status, setStatus] = useState("initial");
+  const router = useRouter();
 
   const handleFileChange = (e) => {
     if (e.target.files) {
@@ -11,8 +13,6 @@ const MultipleFileUploader = () => {
       setFiles(e.target.files);
     }
   };
-
-  console.log({ collectionName });
 
   const handleUpload = async (e) => {
     e.preventDefault();
@@ -35,6 +35,7 @@ const MultipleFileUploader = () => {
           });
         }
         setStatus("success");
+        router.push("/collections");
       } catch (error) {
         console.error("Error occurred during image upload:", error);
         setStatus("fail");
@@ -59,17 +60,14 @@ const MultipleFileUploader = () => {
       {files &&
         [...files].map((file, index) => (
           <section key={file.name}>
-            File number {index + 1} details:
             <ul>
-              <li>Name: {file.name}</li>
-              <li>Type: {file.type}</li>
-              <li>Size: {file.size} bytes</li>
+              <li className="m-2">Name: {file.name}</li>
             </ul>
           </section>
         ))}
 
       {files && (
-        <button className="submit px-4 py-2 bg-blue-600 text-white rounded-md mr-2 hover:bg-blue-700 focus:outline-none focus:bg-blue-700">
+        <button className="submit px-4 py-2 bg-blue-600 text-white rounded-md mr-2 hover:bg-blue-700 focus:outline-none focus:bg-blue-700 m-2">
           Upload {files.length > 1 ? "files" : "a file"}
         </button>
       )}

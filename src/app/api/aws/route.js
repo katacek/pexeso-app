@@ -58,6 +58,5 @@ export async function GET(req) {
 
   const command = new GetObjectCommand(s3ParamsGetUrl);
   const signedUrl = await getSignedUrl(client, command, { expiresIn: 60000 });
-  console.log({ signedUrl });
   return NextResponse.json({ data: signedUrl });
 }

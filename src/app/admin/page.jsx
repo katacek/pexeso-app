@@ -18,7 +18,6 @@ const Admin = () => {
       // get from mongo
       const fetchDataFromMongo = await fetch("/api/mongo");
       const { data: dataFromMongo } = await fetchDataFromMongo.json();
-      console.log({ dataFromMongo });
       if (dataFromMongo) {
         alert("Data retrieved Mongo successfully!");
       }
@@ -26,7 +25,6 @@ const Admin = () => {
       const { data: signedUrl } = await fetchSignedUrl.json();
 
       if (signedUrl) {
-        console.log({ signedUrl });
         alert("Signed url obtained");
       }
     } catch (err) {
