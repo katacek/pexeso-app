@@ -134,12 +134,12 @@ const Play = () => {
 
   // TODO move to components
   function WinnerModal() {
-    const scores = players.map(player => {
-        return player.score;
-      });
-      const max = Math.max(...scores);
-      // TODO finish winners modal
-      const winnerPlayers = players.filter(player => player.score === max);
+    // const scores = players.map(player => {
+    //     return player.score;
+    //   });
+    //   const max = Math.max(...scores);
+    //   // TODO finish winners modal
+    //   const winnerPlayers = players.filter(player => player.score === max);
     return (
       <Dialog
         open={gameOver}
