@@ -1,6 +1,8 @@
 Pexeso app in Next.js (with App Router + Tailwind to try it), using AWS S3 and MongoDB along the way.
 Vercel [here](https://pexeso-app.vercel.app/).
 
+// TODO: errors handling (img to large, .., no name entered), edge case testing (1player), todos, visual 
+
 ### Admin page
 
 - [x] upload images to s3 + access images from s3
