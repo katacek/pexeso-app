@@ -7,8 +7,8 @@ Pexeso app in Next.js (with App Router + Tailwind to try it), using AWS S3 and M
 - [x] upload images to MongoDB
 - [x] uplaod images under defined collection for various game
 - [x] retrieve game images from MongoDb
-- [ ] delete game images in MongoDB
-- [ ] change game images name
+- [x] delete game collection in MongoDB
+- [x] change game collection name
 
 ### Game
 
