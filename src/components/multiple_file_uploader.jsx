@@ -35,7 +35,7 @@ const MultipleFileUploader = () => {
           });
         }
         setStatus("success");
-        router.push("/collections");
+        router.push("/admin/collections");
       } catch (error) {
         console.error("Error occurred during image upload:", error);
         setStatus("fail");
