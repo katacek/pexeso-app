@@ -38,24 +38,28 @@ const Admin = () => {
   };
 
   return (
-    <div className="dark flex min-h-screen w-full items-center justify-center">
-      <button
-        onClick={() => setIsModalOpen(true)}
-        className="px-4 py-2 bg-blue-200 text-blue-800 rounded-md hover:bg-blue-300 focus:outline-none focus:bg-blue-300 m-2"
-      >
-        Create pexeso
-      </button>
-      <CreatePexesoModal
-        isModalOpen={isModalOpen}
-        closeModal={() => setIsModalOpen(!isModalOpen)}
-      />
-      <button
-        onClick={handleShowPexesos}
-        className="px-4 py-2 bg-blue-200 text-blue-800 rounded-md hover:bg-blue-300 focus:outline-none focus:bg-blue-300 m-2"
-      >
-        Show existing pexesos
-      </button>
-    </div>
+    <><button
+      onClick={() => router.push("/")}
+      className="text-white bg-gradient-to-r from-teal-400 via-teal-500 to-teal-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-teal-300 dark:focus:ring-teal-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center m-2"
+    >
+      Go back
+    </button><div className="dark flex min-h-screen w-full items-center justify-center">
+        <button
+          onClick={() => setIsModalOpen(true)}
+          className="px-4 py-2 bg-blue-200 text-blue-800 rounded-md hover:bg-blue-300 focus:outline-none focus:bg-blue-300 m-2"
+        >
+          Create pexeso
+        </button>
+        <CreatePexesoModal
+          isModalOpen={isModalOpen}
+          closeModal={() => setIsModalOpen(!isModalOpen)} />
+        <button
+          onClick={handleShowPexesos}
+          className="px-4 py-2 bg-blue-200 text-blue-800 rounded-md hover:bg-blue-300 focus:outline-none focus:bg-blue-300 m-2"
+        >
+          Show existing pexesos
+        </button>
+      </div></>
   );
 };
 

@@ -19,7 +19,7 @@ export default function Home() {
           </h2>
         </Link>
 
-        <Link href="/admin">
+        <Link href="/game">
           <h2 className={`mb-3 text-2xl font-semibold`}>
           Game{" "}
             <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
