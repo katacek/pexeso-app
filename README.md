@@ -1,4 +1,5 @@
-Pexeso app in Next.js (with App Router + Tailwind to try it), using AWS S3 and MongoDB along the way
+Pexeso app in Next.js (with App Router + Tailwind to try it), using AWS S3 and MongoDB along the way.
+Vercel [here](https://pexeso-app.vercel.app/).
 
 ### Admin page
 
