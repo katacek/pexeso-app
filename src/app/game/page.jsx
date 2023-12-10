@@ -42,6 +42,7 @@ const Game = () => {
             <input
               type="text"
               placeholder="2"
+              value={numberOfPlayers}
               onChange={(e) => {
                 setNumberOfPlayers(e.target.value);
               }}

@@ -75,7 +75,7 @@ const Play = () => {
       setEnhancedCardsArray(copy);
     }
 
-    const isGameOver = !copy.some((card)=> card.isVisible === false)
+    const isGameOver = !copy.some((card) => card.isVisible === false);
     setGameOver(isGameOver);
 
     // PLAYER
@@ -151,8 +151,8 @@ const Play = () => {
             Congratulations! 🎉
           </Dialog.Title>
           <Dialog.Description>
-          And the winner is ... the one with the highest score :-P
-        </Dialog.Description>
+            And the winner is ... the one with the highest score :-P
+          </Dialog.Description>
         </Dialog.Panel>
       </Dialog>
     );
@@ -180,7 +180,7 @@ const Play = () => {
                     width={0}
                     height={0}
                     sizes="100vw"
-                    style={{ width: '100%', height: 'auto' }} // optional
+                    style={{ width: "100%", height: "auto" }} // optional
                     onClick={() => handleCardClick(index)}
                   />
                 </div>
