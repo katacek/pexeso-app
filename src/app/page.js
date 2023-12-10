@@ -8,7 +8,7 @@ export default function Home() {
         <h2 className={`mb-3 text-2xl font-semibold`}> Are you ready for a game of PEXESO? </h2>
       </div>
 
-      <div className="mb-32 grid text-center lg:max-w-5xl lg:w-full lg:mb-0 lg:grid-cols-4 lg:text-left">
+      <div className="mb-32 grid text-center lg:max-w-5xl lg:w-full lg:mb-0">
 
       <Link href="/admin">
           <h2 className={`mb-3 text-2xl font-semibold`}>
