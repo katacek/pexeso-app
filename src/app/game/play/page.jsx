@@ -168,7 +168,7 @@ const Play = () => {
       </button>
       <WinnerModal isModalOpen={gameOver} />
       <div className="grid grid-cols-3 gap-4">
-        <div className="grid grid-cols-3 col-span-2 gap-1 m-2">
+        <div className="grid grid-cols-3 col-span-2 gap-1 m-2 auto-rows-fr auto-cols-fr">
           {enhancedCardsArray ? (
             enhancedCardsArray.map((card, index) => {
               return card.isVisible ? (
@@ -177,15 +177,17 @@ const Play = () => {
                     alt=""
                     src={card.url}
                     className="rounded-lg"
-                    width={400}
-                    height={400}
+                    width={0}
+                    height={0}
+                    sizes="100vw"
+                    style={{ width: '100%', height: 'auto' }} // optional
                     onClick={() => handleCardClick(index)}
                   />
                 </div>
               ) : (
                 <div
                   key={index}
-                  className="h-40 w-40 bg-teal-500 rounded-lg"
+                  className="h-48 bg-teal-500 rounded-lg"
                   onClick={() => handleCardClick(index)}
                 />
               );
