@@ -20,7 +20,7 @@ export async function POST(req) {
   const buffer = Buffer.from(await file.arrayBuffer());
 
   const s3Params = {
-    Bucket: "pexeso-bucket",
+    Bucket: process.env.AWS_BUCKET,
     ContentType: "image/jpeg",
     ACL: "public-read",
     Key: key,
@@ -31,8 +31,7 @@ export async function POST(req) {
   const collectionName = res.get("collectionName");
   const client = new MongoClient(process.env.MONGODB_URI);
   await client.connect();
-  // TODO to env
-  const database = client.db("pexeso-app");
+  const database = client.db(process.env.MONGO_DB_NAME);
   const collection = database.collection(collectionName);
   if (!collection) await database.createCollection(collectionName);
   const responseMongo = await collection.insertOne({ data: key });

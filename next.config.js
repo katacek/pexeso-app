@@ -4,6 +4,9 @@ const nextConfig = {
     accessKeyId: process.env.accessKeyId,
     secretAccessKey: process.env.secretAccessKey,
     region: process.env.region,
+    MONGODB_URI: process.env.MONGODB_URI,
+    MONGO_DB_NAME: process.env.MONGO_DB_NAME,
+    AWS_BUCKET: process.env.AWS_BUCKET,
   },
   images: {
     remotePatterns: [

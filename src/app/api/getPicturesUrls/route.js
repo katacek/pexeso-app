@@ -9,8 +9,7 @@ export async function GET(req) {
   const collectionName = searchParams.get("collectionName");
   const client = new MongoClient(process.env.MONGODB_URI);
   await client.connect();
-  // TODO env
-  const database = client.db("pexeso-app");
+  const database = client.db(process.env.MONGO_DB_NAME);
   const collection = database.collection(collectionName);
   const keys = await collection.find({}).toArray();
 
@@ -28,7 +27,7 @@ export async function GET(req) {
   for (const key of keys) {
     const response = await getSignedUrl(
       s3,
-      new GetObjectCommand({ Bucket: "pexeso-bucket", Key: key.data }),
+      new GetObjectCommand({ Bucket: process.env.AWS_BUCKET, Key: key.data }),
       { expiresIn: 60000 }
     );
     signedUrls.push(response);
