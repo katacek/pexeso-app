@@ -158,6 +158,8 @@ const Play = () => {
     );
   }
 
+  // div to be flex
+
   return (
     <>
       <button
@@ -172,7 +174,6 @@ const Play = () => {
           {enhancedCardsArray ? (
             enhancedCardsArray.map((card, index) => {
               return card.isVisible ? (
-                <div key={index}>
                   <Image
                     alt=""
                     src={card.url}
@@ -180,10 +181,10 @@ const Play = () => {
                     width={0}
                     height={0}
                     sizes="100vw"
-                    style={{ width: "100%", height: "auto" }} // optional
+                    style={{ height: "100%", width: "auto" }} // optional
+                    key={index} 
                     onClick={() => handleCardClick(index)}
                   />
-                </div>
               ) : (
                 <div
                   key={index}
